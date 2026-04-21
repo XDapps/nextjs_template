@@ -10,7 +10,9 @@
 
 /** Returns the database client. Replace this stub with your actual client. */
 export function getDb(): never {
-  throw new Error("getDb() is not implemented — see lib/db.ts. TODO: install your DB package (e.g. npm i prisma @prisma/client) and replace this stub.");
+  throw new Error(
+    "getDb() is not implemented — see lib/db.ts. TODO: install your DB package (e.g. npm i prisma @prisma/client) and replace this stub.",
+  );
 }
 // Example with Prisma:
 // import { PrismaClient } from "@prisma/client";

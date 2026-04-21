@@ -8,14 +8,14 @@ This document is for coding agents (Claude, Cursor, etc.) bootstrapping a new pr
 
 Ask the user for:
 
-| Question | Key |
-|---|---|
-| What is the brand/company name? | `design.brand.name` |
-| One-line description of the app? | `design.brand.description` |
-| Primary font (Google Fonts name, e.g. "Inter", "Nunito")? | `design.font.sans` |
-| Monospace font (Google Fonts name, e.g. "JetBrains Mono")? | `design.font.mono` |
-| Border radius (e.g. "0rem", "0.5rem", "1rem")? | `design.radius` |
-| Primary color in oklch or hex? (will convert) | `globals.css --primary` |
+| Question                                                   | Key                        |
+| ---------------------------------------------------------- | -------------------------- |
+| What is the brand/company name?                            | `design.brand.name`        |
+| One-line description of the app?                           | `design.brand.description` |
+| Primary font (Google Fonts name, e.g. "Inter", "Nunito")?  | `design.font.sans`         |
+| Monospace font (Google Fonts name, e.g. "JetBrains Mono")? | `design.font.mono`         |
+| Border radius (e.g. "0rem", "0.5rem", "1rem")?             | `design.radius`            |
+| Primary color in oklch or hex? (will convert)              | `globals.css --primary`    |
 
 If the user gives a hex color, convert to oklch using https://oklch.com (paste hex, copy the `oklch(...)` string). See Step 4 for the full conversion workflow.
 
@@ -33,7 +33,7 @@ export const design = {
     description: "One-line description.",
   },
   font: {
-    sans: "Nunito",    // ← Google Font name
+    sans: "Nunito", // ← Google Font name
     mono: "Fira Code", // ← Google Font name
   },
   radius: "0.75rem",
@@ -68,7 +68,7 @@ Find `:root { ... }` and `.dark { ... }` blocks. Replace the `--primary`, `--bac
 
 The full token set is already defined — you only need to change values, not structure.
 
-To convert hex → oklch: visit https://oklch.com, paste the hex value, and copy the resulting `oklch(L C H)` string. Alternatively, run `node -e "const c=require('culori');const v=c.oklch(c.parse('#3b82f6'));console.log(\`oklch(\${v.l.toFixed(3)} \${v.c.toFixed(3)} \${v.h.toFixed(3)})\`)"` if `culori` is available in the project. Paste the resulting `oklch(...)` values directly into `globals.css` (both `:root` and `.dark` blocks).
+To convert hex → oklch: visit https://oklch.com, paste the hex value, and copy the resulting `oklch(L C H)` string. Alternatively, run `node -e "const c=require('culori');const v=c.oklch(c.parse('#3b82f6'));console.log(\`oklch(\${v.l.toFixed(3)} \${v.c.toFixed(3)} \${v.h.toFixed(3)})\`)"`if`culori`is available in the project. Paste the resulting`oklch(...)`values directly into`globals.css`(both`:root`and`.dark` blocks).
 
 ---
 
@@ -132,12 +132,12 @@ It is already guarded by a `notFound()` call in non-development environments, so
 
 ## Quick reference — scripts
 
-| Command | Purpose |
-|---|---|
-| `npm run dev` | Start development server |
-| `npm run build` | Production build |
-| `npm run typecheck` | TypeScript check (no emit) |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier (write) |
-| `npm test` | Vitest (single run) |
-| `npm run test:watch` | Vitest (watch mode) |
+| Command              | Purpose                    |
+| -------------------- | -------------------------- |
+| `npm run dev`        | Start development server   |
+| `npm run build`      | Production build           |
+| `npm run typecheck`  | TypeScript check (no emit) |
+| `npm run lint`       | ESLint                     |
+| `npm run format`     | Prettier (write)           |
+| `npm test`           | Vitest (single run)        |
+| `npm run test:watch` | Vitest (watch mode)        |

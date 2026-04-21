@@ -4,16 +4,16 @@ A reusable starting point for new projects. Pre-wired with current best-practice
 
 ## What's included
 
-| Area | Choice |
-|---|---|
-| Framework | Next.js 16 (App Router) + React 19 |
-| Language | TypeScript 5 (strict + noUncheckedIndexedAccess) |
-| Styling | Tailwind CSS v4 + shadcn/ui (New York style) |
-| Dark mode | next-themes |
-| Env vars | @t3-oss/env-nextjs + Zod |
-| Testing | Vitest + React Testing Library |
-| Lint | ESLint (Next.js defaults + prettier) |
-| Format | Prettier + prettier-plugin-tailwindcss |
+| Area      | Choice                                           |
+| --------- | ------------------------------------------------ |
+| Framework | Next.js 16 (App Router) + React 19               |
+| Language  | TypeScript 6 (strict + noUncheckedIndexedAccess) |
+| Styling   | Tailwind CSS v4 + shadcn/ui                      |
+| Dark mode | next-themes                                      |
+| Env vars  | @t3-oss/env-nextjs + Zod                         |
+| Testing   | Vitest + React Testing Library                   |
+| Lint      | ESLint (Next.js defaults + prettier)             |
+| Format    | Prettier + prettier-plugin-tailwindcss           |
 
 ## Quick start
 
@@ -66,16 +66,16 @@ AGENT-SETUP.md        Step-by-step runbook for coding agents
 
 ## Scripts
 
-| Command | Purpose |
-|---|---|
-| `npm run dev` | Development server |
-| `npm run build` | Production build |
-| `npm start` | Start production server |
-| `npm run typecheck` | TypeScript (no emit) |
-| `npm run lint` | ESLint |
-| `npm run format` | Prettier (write) |
-| `npm test` | Vitest (single run) |
-| `npm run test:watch` | Vitest (watch mode) |
+| Command              | Purpose                 |
+| -------------------- | ----------------------- |
+| `npm run dev`        | Development server      |
+| `npm run build`      | Production build        |
+| `npm start`          | Start production server |
+| `npm run typecheck`  | TypeScript (no emit)    |
+| `npm run lint`       | ESLint                  |
+| `npm run format`     | Prettier (write)        |
+| `npm test`           | Vitest (single run)     |
+| `npm run test:watch` | Vitest (watch mode)     |
 
 ## Pre-installed shadcn components
 

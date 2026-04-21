@@ -40,10 +40,7 @@ export default function RootLayout({
        * --radius is set inline so globals.css can reference it via var(--radius).
        * Agents: change design.radius in design.config.ts and this updates everywhere.
        */}
-      <body
-        className="min-h-full flex flex-col"
-        style={{ "--radius": design.radius }}
-      >
+      <body className="flex min-h-full flex-col" style={{ "--radius": design.radius }}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

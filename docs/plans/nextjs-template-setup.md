@@ -8,19 +8,19 @@ The template itself will live as a GitHub template repo. Each client project is 
 
 ## Final decisions (from Q&A)
 
-| Area | Decision |
-|---|---|
-| **Framework** | Next.js 15 (App Router), React 19, TypeScript strict |
-| **Styling** | Tailwind CSS v4 + shadcn/ui + `next-themes` (dark mode) |
-| **Pages** | Empty production homepage. Dev-only `/design` token showcase. |
-| **App shell** | None. No sidebar, no topbar. Each project builds its own. |
-| **Auth** | Stub only (`lib/auth.ts` placeholder). No documented upgrade path. |
-| **Database** | Stub only (`lib/db.ts` placeholder). |
-| **LLM** | Empty `lib/ai.ts` slot with `// TODO: install @yourorg/ai` comment. Actual package is a separate future effort. |
-| **Customization UX** | Single `design.config.ts` + `AGENT-SETUP.md` with explicit agent instructions. No interactive CLI. |
-| **Lint/format** | ESLint + Prettier (maximum agent compatibility; Biome is faster but less familiar to agents). |
-| **Testing** | Vitest + React Testing Library (ESM-native, works cleanly with Next 15 / React 19). |
-| **Env vars** | `@t3-oss/env-nextjs` for typesafe runtime validation. |
+| Area                 | Decision                                                                                                        |
+| -------------------- | --------------------------------------------------------------------------------------------------------------- |
+| **Framework**        | Next.js 15 (App Router), React 19, TypeScript strict                                                            |
+| **Styling**          | Tailwind CSS v4 + shadcn/ui + `next-themes` (dark mode)                                                         |
+| **Pages**            | Empty production homepage. Dev-only `/design` token showcase.                                                   |
+| **App shell**        | None. No sidebar, no topbar. Each project builds its own.                                                       |
+| **Auth**             | Stub only (`lib/auth.ts` placeholder). No documented upgrade path.                                              |
+| **Database**         | Stub only (`lib/db.ts` placeholder).                                                                            |
+| **LLM**              | Empty `lib/ai.ts` slot with `// TODO: install @yourorg/ai` comment. Actual package is a separate future effort. |
+| **Customization UX** | Single `design.config.ts` + `AGENT-SETUP.md` with explicit agent instructions. No interactive CLI.              |
+| **Lint/format**      | ESLint + Prettier (maximum agent compatibility; Biome is faster but less familiar to agents).                   |
+| **Testing**          | Vitest + React Testing Library (ESM-native, works cleanly with Next 15 / React 19).                             |
+| **Env vars**         | `@t3-oss/env-nextjs` for typesafe runtime validation.                                                           |
 
 ## Target file structure
 
@@ -85,7 +85,7 @@ export const design = {
 
 Structured as an agent runbook:
 
-1. Ask the user: brand name, brand description, primary color (hex or HSL), accent/secondary if different, preferred font (default Inter), border radius preference (default 0.5rem).
+1. Ask the user: brand name, brand description, primary color (hex or oklch — hex will be converted), accent/secondary if different, preferred font (default Inter), border radius preference (default 0.5rem).
 2. Edit `design.config.ts` with the brand/font/radius.
 3. Edit `app/globals.css` color tokens (both `:root` and `.dark` blocks) — conversion: hex → oklch via https://oklch.com (see AGENT-SETUP.md Step 4).
 4. Run `npm install`.

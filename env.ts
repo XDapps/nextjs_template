@@ -1,11 +1,11 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-// z is used in the commented examples below — uncomment fields to activate.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { z } from "zod";
 
 /**
  * Type-safe environment variable schema.
  * Add variables here as your project grows — they are validated at startup.
+ *
+ * When you add your first field, uncomment the `z` import:
+ *   import { z } from "zod";
  *
  * Example:
  *   server: { DATABASE_URL: z.string().url() }

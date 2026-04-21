@@ -10,5 +10,7 @@
 
 /** Returns the AI client. Replace this stub with your actual SDK client. */
 export function getAi(): never {
-  throw new Error("getAi() is not implemented — see lib/ai.ts. TODO: install your AI SDK (e.g. npm i ai @ai-sdk/openai) and replace this stub.");
+  throw new Error(
+    "getAi() is not implemented — see lib/ai.ts. TODO: install your AI SDK (e.g. npm i ai @ai-sdk/openai) and replace this stub.",
+  );
 }
