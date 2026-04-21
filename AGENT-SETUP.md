@@ -272,6 +272,7 @@ If a project has no AI features:
 1. Delete `lib/ai.ts`.
 2. Remove `@xdappsdev/ai` and `ai` from `package.json`.
 3. Run `npm install`.
+4. Remove the `# ---- AI providers ----` block from `.env.example`.
 
 The rest of the template continues to work unchanged.
 
