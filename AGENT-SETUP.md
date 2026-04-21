@@ -93,7 +93,7 @@ This page renders: brand name, font samples, color swatches, radius samples, and
 
 ## Step 7 — Install project-specific dependencies
 
-Add auth, database, AI as needed:
+Add auth and database as needed. AI is already pre-installed — see [Adding AI Features](#adding-ai-features) below.
 
 ```bash
 # Auth (Clerk example)
@@ -104,10 +104,6 @@ npm install @clerk/nextjs
 npm install prisma @prisma/client
 npx prisma init
 # Then replace lib/db.ts
-
-# AI (Vercel AI SDK example)
-npm install ai @ai-sdk/openai
-# Then replace lib/ai.ts
 ```
 
 ---
@@ -127,6 +123,157 @@ rm -rf app/design
 ```
 
 It is already guarded by a `notFound()` call in non-development environments, so it is safe to leave in, but removing it keeps the build clean.
+
+---
+
+## Adding AI Features
+
+This template ships with `@xdappsdev/ai` pre-installed and wired up in [lib/ai.ts](lib/ai.ts). To add AI to this project, follow these steps.
+
+### 1. Decide on use cases
+
+An AI "use case" is a named combination of provider + model + modality that app code references by name. Don't name them by quality tier (`fast`, `smart`) — name them by the *job they do* (`customerChat`, `reviewClassifier`, `productImage`, `faqEmbedder`).
+
+Ask the user what AI features the project needs. For each feature, decide:
+- **Modality:** text (chat, completion, classification), image (generation), or embed (vector search)?
+- **Provider + model:** what's the right fit? (See the cheat sheet below.)
+- **Name:** describe the job, not the quality.
+
+### 2. Add use cases to `lib/ai.ts`
+
+Inside `defineAI({ use: { ... } })`, add an entry for each use case. Examples:
+
+```ts
+use: {
+  customerChat: {
+    provider: "anthropic",
+    model: "claude-haiku-4-5",
+    modality: "text",
+    temperature: 0.7,
+    system: "You are a helpful support assistant for Acme Inc.",
+  },
+  reviewClassifier: {
+    provider: "openai",
+    model: "gpt-5-mini",
+    modality: "text",
+    temperature: 0,
+  },
+}
+```
+
+### 3. Install the matching provider peer dep(s)
+
+For each unique `provider` in your use cases, install the corresponding `@ai-sdk/*` package:
+
+| Provider in config | Install |
+|---|---|
+| `"anthropic"` | `npm install @ai-sdk/anthropic@^3` |
+| `"openai"` | `npm install @ai-sdk/openai@^3` |
+| `"google"` | `npm install @ai-sdk/google@^3` |
+| `"deepseek"` | `npm install @ai-sdk/deepseek@^2` |
+
+If you forget, the first call to that use case returns `error.code === "MISSING_PROVIDER_PKG"` with a message naming the exact package.
+
+### 4. Set API key(s) in `.env.local`
+
+| Provider | Env var |
+|---|---|
+| `anthropic` | `ANTHROPIC_API_KEY` |
+| `openai` | `OPENAI_API_KEY` |
+| `google` | `GOOGLE_GENERATIVE_AI_API_KEY` |
+| `deepseek` | `DEEPSEEK_API_KEY` |
+
+Optionally, add the key to `env.ts` server schema to get startup validation:
+
+```ts
+server: {
+  ANTHROPIC_API_KEY: z.string().min(1),
+}
+// and in runtimeEnv:
+runtimeEnv: {
+  ANTHROPIC_API_KEY: process.env.ANTHROPIC_API_KEY,
+}
+```
+
+### 5. Call from app code
+
+Import the `ai` singleton from `lib/ai` and call the method that matches the use case's modality:
+
+```ts
+import { ai } from "@/lib/ai";
+
+// Text generation
+const result = await ai.text({
+  use: "customerChat",
+  messages: [{ role: "user", content: "Hello" }],
+});
+if (!result.ok) return { error: result.error.code };
+return { text: result.text };
+
+// Structured output (text modality)
+import { z } from "zod";
+const classified = await ai.object({
+  use: "reviewClassifier",
+  schema: z.object({ sentiment: z.enum(["pos", "neg", "neu"]) }),
+  messages: [{ role: "user", content: reviewText }],
+});
+
+// Image generation
+const img = await ai.image({ use: "productImage", prompt: "..." });
+
+// Embeddings
+const emb = await ai.embed({ use: "faqEmbedder", values: ["..."] });
+```
+
+`ai.text` / `ai.stream` / `ai.object` only accept use cases with `modality: "text"`. `ai.image` only accepts `"image"`. `ai.embed` only accepts `"embed"`. TypeScript enforces this at compile time.
+
+### 6. (Optional) Add streaming chat endpoint
+
+If you have a text use case that powers a chat UI, add this file — **one route handler covers all chat use cases** via dynamic `[use]` param:
+
+```ts
+// app/api/ai/[use]/route.ts
+import { ai } from "@/lib/ai";
+import { createChatRouteHandler } from "@xdappsdev/ai/next";
+
+export const POST = createChatRouteHandler((opts) => ai.stream(opts));
+```
+
+Then in a client component:
+
+```tsx
+"use client";
+import { useAiChat } from "@xdappsdev/ai/react";
+
+export function ChatWidget() {
+  const { messages, sendMessage, status } = useAiChat({ use: "customerChat" });
+  // render messages + input, call sendMessage({ text: input })
+}
+```
+
+You'll need `@ai-sdk/react` installed: `npm install @ai-sdk/react@^3`.
+
+### Model cheat sheet (rule of thumb)
+
+Use this as a starting point — always verify current pricing and capabilities with the provider before committing to a client project.
+
+| Use case flavor | Reasonable default |
+|---|---|
+| Chat, customer support, general conversation | `anthropic:claude-haiku-4-5` or `openai:gpt-5-mini` |
+| Classification, simple extraction, routing | `openai:gpt-5-mini` (cheap, fast, deterministic) |
+| Long-form generation, complex reasoning, reports | `anthropic:claude-opus-4-7` or `openai:gpt-5` |
+| Image generation | `openai:gpt-image-1` |
+| Embeddings | `openai:text-embedding-3-small` |
+| Free tier / experimentation | `google:gemini-2.5-flash` |
+
+### Removing AI entirely
+
+If a project has no AI features:
+1. Delete `lib/ai.ts`.
+2. Remove `@xdappsdev/ai` and `ai` from `package.json`.
+3. Run `npm install`.
+
+The rest of the template continues to work unchanged.
 
 ---
 

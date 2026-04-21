@@ -14,6 +14,7 @@ A reusable starting point for new projects. Pre-wired with current best-practice
 | Testing   | Vitest + React Testing Library                   |
 | Lint      | ESLint (Next.js defaults + prettier)             |
 | Format    | Prettier + prettier-plugin-tailwindcss           |
+| AI        | `@xdappsdev/ai` — Vercel AI SDK wrapper with use-case profiles. See [AGENT-SETUP.md](./AGENT-SETUP.md#adding-ai-features) for per-project configuration. |
 
 ## Quick start
 
@@ -65,7 +66,7 @@ lib/
   utils.ts            cn() helper
   auth.ts             Auth stub (replace with your implementation)
   db.ts               Database stub
-  ai.ts               AI/LLM stub
+  ai.ts               Pre-wired defineAI() registry (add use cases per project)
 design.config.ts      Brand, font, radius — single customization surface
 env.ts                Typesafe env var schema
 AGENT-SETUP.md        Step-by-step runbook for coding agents
