@@ -17,21 +17,28 @@ A reusable starting point for new projects. Pre-wired with current best-practice
 
 ## Quick start
 
+Create a new project from this template (fresh git history, no fork lineage):
+
+**From GitHub:** open https://github.com/XDapps/nextjs_template and click **Use this template → Create a new repository**.
+
+**From the CLI:**
+
 ```bash
-# 1. Clone or use as template
-git clone <this-repo> my-project
+gh repo create my-project --template XDapps/nextjs_template --public --clone
 cd my-project
 npm install
 
-# 2. Set up env vars
+# Set up env vars
 cp .env.example .env.local
 
-# 3. Start dev server
+# Start dev server
 npm run dev
 
-# 4. Visit the design system showcase (dev only)
+# Visit the design system showcase (dev only)
 open http://localhost:3000/design
 ```
+
+> ⚠️ Don't `git clone` this repo directly unless you want to contribute back to the template itself — cloning preserves this repo's history and remote, which is not what you want for a new project.
 
 ## Customization
 
