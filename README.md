@@ -18,7 +18,7 @@ A reusable starting point for new projects. Pre-wired with current best-practice
 ## What's NOT included
 
 - Auth, database, or any infrastructure wiring — add those at the project level.
-- LLM / AI SDK — projects that need an LLM should add their preferred SDK at the project level. The Lightspeed monorepo, for example, uses `@lightspeed/llm` (Bedrock-capable) consumed only by feature packages.
+- LLM / AI SDK — projects that need an LLM should add their preferred SDK at the project level.
 
 ## Quick start
 
